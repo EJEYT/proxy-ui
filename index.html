@@ -2,190 +2,225 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>NovaBrowse</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>SpaceBrowse</title>
 <style>
 :root {
-    --bg: #0b0f1a;
-    --panel: #12182b;
-    --panel2: #181f3a;
-    --accent: #6b7cff;
-    --text: #e9ebff;
-    --muted: #9aa0ff;
+  --bg: #0a0c1e;
+  --accent: #8c5eff;
+  --panel: #121426;
+  --panel-hover: #1e1f3b;
+  --text: #e9e9f5;
+  --muted: #9a9cff;
 }
 
-* {
-    box-sizing: border-box;
+/* Global */
+* {box-sizing: border-box;}
+body {margin:0;font-family: system-ui, sans-serif;background: var(--bg);color: var(--text);overflow:hidden;}
+
+/* Welcome screen */
+#welcome {
+  width:100vw;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background: radial-gradient(circle at bottom,#0a0c1e, #1b1238 80%);
+  color: var(--text);
+  text-align:center;
+}
+#welcome h1 {font-size:3rem; margin:0; background: linear-gradient(90deg,#fff,#8c5eff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+#welcome p {margin:10px 0;font-size:1.2rem;opacity:0.8;}
+#beginBtn {
+  margin-top:20px;
+  padding: 15px 40px;
+  font-size:1rem;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  background: var(--accent);
+  color:white;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(140,94,255,0.6);
+}
+#beginBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(140,94,255,0.9);
 }
 
-body {
-    margin: 0;
-    height: 100vh;
-    background: var(--bg);
-    color: var(--text);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    display: flex;
+/* Main Browser UI */
+#browser {
+  display:none;
+  height:100vh;
+  width:100vw;
+  display:flex;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 200px;
-    background: var(--panel);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  width:80px;
+  background: var(--panel);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:10px;
+  gap:15px;
+}
+.sidebar .icon {
+  width:40px;
+  height:40px;
+  background: var(--panel-hover);
+  border-radius:12px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  cursor:pointer;
+  transition: 0.3s;
+  font-size:20px;
+  color: var(--accent);
+}
+.sidebar .icon:hover {
+  background: var(--accent);
+  color: white;
 }
 
-.logo {
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.quick {
-    background: var(--panel2);
-    padding: 10px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.2s;
-}
-.quick:hover {
-    background: #222b55;
-}
-
-/* Main */
+/* Main area */
 .main {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  flex:1;
+  display:flex;
+  flex-direction:column;
 }
 
 /* Top bar */
 .topbar {
-    background: var(--panel);
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  background: var(--panel);
+  display:flex;
+  padding:10px;
+  gap:10px;
+  align-items:center;
 }
-
-.topbar button {
-    background: var(--panel2);
-    border: none;
-    color: var(--text);
-    padding: 8px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.topbar button:hover {
-    background: #222b55;
-}
-
 .address {
-    flex: 1;
-    background: var(--panel2);
-    border: none;
-    color: var(--text);
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 14px;
+  flex:1;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background: var(--panel-hover);
+  color: var(--text);
+}
+.topbar button {
+  padding:10px 15px;
+  border-radius:10px;
+  border:none;
+  cursor:pointer;
+  background: var(--accent);
+  color:white;
+  transition:0.3s;
+}
+.topbar button:hover {
+  background: white;
+  color: var(--accent);
 }
 
 /* Viewer */
 .viewer {
-    flex: 1;
-    background: black;
+  flex:1;
+  background:black;
 }
-
 iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
+  width:100%;
+  height:100%;
+  border:none;
 }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="logo">NovaBrowse</div>
-
-    <div class="quick" onclick="go('https://www.google.com')">Google</div>
-    <div class="quick" onclick="go('https://www.youtube.com')">YouTube</div>
-    <div class="quick" onclick="go('https://en.wikipedia.org')">Wikipedia</div>
-    <div class="quick" onclick="go('https://github.com')">GitHub</div>
-
-    <div style="margin-top:auto; font-size:12px; opacity:0.4">
-        Frontend Browser UI
-    </div>
+<!-- Welcome Screen -->
+<div id="welcome">
+  <h1>Welcome to Space.</h1>
+  <p>Start your browsing journey today!</p>
+  <button id="beginBtn">Begin</button>
 </div>
 
-<div class="main">
+<!-- Main Browser -->
+<div id="browser">
+  <div class="sidebar">
+    <div class="icon" onclick="go('https://www.google.com')">G</div>
+    <div class="icon" onclick="go('https://www.youtube.com')">Y</div>
+    <div class="icon" onclick="go('https://en.wikipedia.org')">W</div>
+    <div class="icon" onclick="go('https://github.com')">H</div>
+  </div>
+  <div class="main">
     <div class="topbar">
-        <button onclick="reload()">⟳</button>
-        <input id="address" class="address" placeholder="https://example.com">
-        <button onclick="openNew()">↗</button>
+      <button onclick="reloadFrame()">⟳</button>
+      <input class="address" id="address" placeholder="Enter a URL or search query">
+      <button onclick="openNewTab()">↗</button>
     </div>
-
     <div class="viewer">
-        <iframe id="frame"
-            sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-presentation">
-        </iframe>
+      <iframe id="frame" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-presentation"></iframe>
     </div>
+  </div>
 </div>
 
 <script>
-const frame = document.getElementById("frame");
-const address = document.getElementById("address");
+// Transition from welcome to browser
+document.getElementById("beginBtn").addEventListener("click",()=>{
+    document.getElementById("welcome").style.display="none";
+    document.getElementById("browser").style.display="flex";
+});
 
-function normalize(url) {
-    if (!url.startsWith("http")) return "https://" + url;
+// Elements
+const frame=document.getElementById("frame");
+const address=document.getElementById("address");
+
+// Normalize URLs
+function normalize(url){
+    if(!url.startsWith("http")) return "https://"+url;
     return url;
 }
 
-function isYouTube(url) {
-    return url.includes("youtube.com/watch") || url.includes("youtu.be/");
+// YouTube embed handler
+function isYouTube(url){
+    return url.includes("youtube.com/watch")||url.includes("youtu.be/");
 }
-
-function youtubeEmbed(url) {
-    try {
-        let id = "";
-        if (url.includes("watch")) {
-            id = new URL(url).searchParams.get("v");
-        } else {
-            id = url.split("/").pop();
+function youtubeEmbed(url){
+    try{
+        let id="";
+        if(url.includes("watch")){
+            id=new URL(url).searchParams.get("v");
+        }else{
+            id=url.split("/").pop();
         }
-        return "https://www.youtube.com/embed/" + id;
-    } catch {
-        return url;
-    }
+        return "https://www.youtube.com/embed/"+id;
+    }catch{return url;}
 }
 
-function go(url) {
-    if (!url) return;
-    url = normalize(url);
-    address.value = url;
-
-    if (isYouTube(url)) {
-        frame.src = youtubeEmbed(url);
-    } else {
-        frame.src = url;
-    }
+// Google search fallback
+function isSearchQuery(url){
+    return !url.includes(".")||url.includes(" ");
 }
 
-function reload() {
-    frame.src = frame.src;
+// Navigate function
+function go(url){
+    if(!url) return;
+    url=url.trim();
+    if(isSearchQuery(url)) url="https://www.google.com/search?q="+encodeURIComponent(url);
+    address.value=url;
+    url=normalize(url);
+    if(isYouTube(url)) frame.src=youtubeEmbed(url);
+    else frame.src=url;
 }
 
-function openNew() {
-    if (frame.src) window.open(frame.src, "_blank");
-}
+// Reload iframe
+function reloadFrame(){frame.src=frame.src;}
 
-address.addEventListener("keydown", e => {
-    if (e.key === "Enter") go(address.value);
+// Open in new tab
+function openNewTab(){if(frame.src) window.open(frame.src,"_blank");}
+
+// Press enter to go
+address.addEventListener("keydown",e=>{
+    if(e.key==="Enter") go(address.value);
 });
 </script>
 
