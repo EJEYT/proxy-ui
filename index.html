@@ -2,55 +2,71 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Nova Browse</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SpaceBrowse</title>
+
 <style>
-:root {
-  --bg: #0a0c1e;
-  --accent: #8c5eff;
-  --panel: #121426;
-  --panel-hover: #1e1f3b;
-  --text: #e9e9f5;
-  --muted: #9a9cff;
+:root{
+  --bg:#070a14;
+  --panel:#0f1326;
+  --panel2:#151a3a;
+  --accent:#8b6cff;
+  --text:#eef0ff;
+  --muted:#9aa2ff;
 }
 
-/* Global */
-* {box-sizing: border-box;}
-body {margin:0;font-family: system-ui, sans-serif;background: var(--bg);color: var(--text);overflow:hidden;}
+*{box-sizing:border-box}
 
-/* Welcome screen */
-#welcome {
-  width:100vw;
+body{
+  margin:0;
   height:100vh;
+  background:radial-gradient(circle at bottom,#1a0f3f 0%,#070a14 60%);
+  font-family:system-ui,sans-serif;
+  color:var(--text);
+  overflow:hidden;
+}
+
+/* Welcome */
+#welcome{
+  position:absolute;
+  inset:0;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  background: radial-gradient(circle at bottom,#0a0c1e, #1b1238 80%);
-  color: var(--text);
   text-align:center;
+  z-index:10;
 }
-#welcome h1 {font-size:3rem; margin:0; background: linear-gradient(90deg,#fff,#8c5eff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
-#welcome p {margin:10px 0;font-size:1.2rem;opacity:0.8;}
-#beginBtn {
-  margin-top:20px;
-  padding: 15px 40px;
-  font-size:1rem;
+#welcome h1{
+  font-size:3.2rem;
+  margin:0;
+  background:linear-gradient(90deg,#fff,var(--accent));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+#welcome p{
+  margin-top:10px;
+  opacity:.7;
+}
+#begin{
+  margin-top:30px;
+  padding:16px 44px;
   border:none;
-  border-radius:12px;
+  border-radius:14px;
+  font-size:1.05rem;
   cursor:pointer;
-  background: var(--accent);
   color:white;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(140,94,255,0.6);
+  background:var(--accent);
+  box-shadow:0 0 25px rgba(139,108,255,.6);
+  transition:.3s;
 }
-#beginBtn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(140,94,255,0.9);
+#begin:hover{
+  transform:scale(1.1);
+  box-shadow:0 0 40px rgba(139,108,255,.9);
 }
 
-/* Main Browser UI */
-#browser {
+/* App */
+#app{
   display:none;
   height:100vh;
   width:100vw;
@@ -58,76 +74,76 @@ body {margin:0;font-family: system-ui, sans-serif;background: var(--bg);color: v
 }
 
 /* Sidebar */
-.sidebar {
-  width:80px;
-  background: var(--panel);
+.sidebar{
+  width:72px;
+  background:linear-gradient(180deg,#0f1326,#0a0d1c);
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding-top:10px;
-  gap:15px;
+  padding:12px 0;
+  gap:14px;
 }
-.sidebar .icon {
-  width:40px;
-  height:40px;
-  background: var(--panel-hover);
+.icon{
+  width:42px;
+  height:42px;
   border-radius:12px;
+  background:var(--panel2);
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   cursor:pointer;
-  transition: 0.3s;
-  font-size:20px;
-  color: var(--accent);
+  font-weight:600;
+  color:var(--accent);
+  transition:.25s;
 }
-.sidebar .icon:hover {
-  background: var(--accent);
-  color: white;
+.icon:hover{
+  background:var(--accent);
+  color:white;
+  box-shadow:0 0 20px rgba(139,108,255,.8);
 }
 
-/* Main area */
-.main {
+/* Main */
+.main{
   flex:1;
   display:flex;
   flex-direction:column;
 }
 
 /* Top bar */
-.topbar {
-  background: var(--panel);
+.topbar{
   display:flex;
-  padding:10px;
-  gap:10px;
   align-items:center;
-}
-.address {
-  flex:1;
+  gap:10px;
   padding:10px;
-  border-radius:10px;
-  border:none;
-  background: var(--panel-hover);
-  color: var(--text);
+  background:var(--panel);
 }
-.topbar button {
-  padding:10px 15px;
-  border-radius:10px;
+.topbar button{
+  padding:8px 12px;
   border:none;
+  border-radius:10px;
   cursor:pointer;
-  background: var(--accent);
-  color:white;
-  transition:0.3s;
+  background:var(--panel2);
+  color:var(--text);
+  transition:.2s;
 }
-.topbar button:hover {
-  background: white;
-  color: var(--accent);
+.topbar button:hover{
+  background:var(--accent);
+}
+.address{
+  flex:1;
+  padding:10px 14px;
+  border-radius:12px;
+  border:none;
+  background:var(--panel2);
+  color:var(--text);
 }
 
 /* Viewer */
-.viewer {
+.viewer{
   flex:1;
   background:black;
 }
-iframe {
+iframe{
   width:100%;
   height:100%;
   border:none;
@@ -136,91 +152,83 @@ iframe {
 </head>
 <body>
 
-<!-- Welcome Screen -->
 <div id="welcome">
-  <h1>Welcome to Space.</h1>
-  <p>Start your browsing journey today!</p>
-  <button id="beginBtn">Begin</button>
+  <h1>Welcome to Nova.</h1>
+  <p>Browse the web with style.</p>
+  <button id="begin">Begin</button>
 </div>
 
-<!-- Main Browser -->
-<div id="browser">
+<div id="app">
   <div class="sidebar">
-    <div class="icon" onclick="go('https://www.google.com')">G</div>
-    <div class="icon" onclick="go('https://www.youtube.com')">Y</div>
+    <div class="icon" onclick="googleSearch()">G</div>
+    <div class="icon" onclick="openYouTube()">Y</div>
     <div class="icon" onclick="go('https://en.wikipedia.org')">W</div>
     <div class="icon" onclick="go('https://github.com')">H</div>
   </div>
+
   <div class="main">
     <div class="topbar">
       <button onclick="reloadFrame()">⟳</button>
-      <input class="address" id="address" placeholder="Enter a URL or search query">
-      <button onclick="openNewTab()">↗</button>
+      <input id="address" class="address" placeholder="Search or enter a URL">
+      <button onclick="openNew()">↗</button>
     </div>
     <div class="viewer">
-      <iframe id="frame" sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-presentation"></iframe>
+      <iframe id="frame"
+        sandbox="allow-scripts allow-forms allow-same-origin allow-popups allow-presentation">
+      </iframe>
     </div>
   </div>
 </div>
 
 <script>
-// Transition from welcome to browser
-document.getElementById("beginBtn").addEventListener("click",()=>{
-    document.getElementById("welcome").style.display="none";
-    document.getElementById("browser").style.display="flex";
-});
-
-// Elements
 const frame=document.getElementById("frame");
 const address=document.getElementById("address");
 
-// Normalize URLs
-function normalize(url){
-    if(!url.startsWith("http")) return "https://"+url;
-    return url;
+begin.onclick=()=>{
+  welcome.style.display="none";
+  app.style.display="flex";
+};
+
+function normalize(u){
+  if(!u.startsWith("http")) return "https://"+u;
+  return u;
 }
 
-// YouTube embed handler
-function isYouTube(url){
-    return url.includes("youtube.com/watch")||url.includes("youtu.be/");
+function isYouTube(u){
+  return u.includes("youtube.com/watch")||u.includes("youtu.be/");
 }
-function youtubeEmbed(url){
-    try{
-        let id="";
-        if(url.includes("watch")){
-            id=new URL(url).searchParams.get("v");
-        }else{
-            id=url.split("/").pop();
-        }
-        return "https://www.youtube.com/embed/"+id;
-    }catch{return url;}
+function ytEmbed(u){
+  try{
+    let id=u.includes("watch")?new URL(u).searchParams.get("v"):u.split("/").pop();
+    return "https://www.youtube.com/embed/"+id;
+  }catch{return u;}
 }
 
-// Google search fallback
-function isSearchQuery(url){
-    return !url.includes(".")||url.includes(" ");
+function googleSearch(){
+  address.value="";
+  frame.src="https://www.google.com/search?q=";
 }
 
-// Navigate function
-function go(url){
-    if(!url) return;
-    url=url.trim();
-    if(isSearchQuery(url)) url="https://www.google.com/search?q="+encodeURIComponent(url);
-    address.value=url;
-    url=normalize(url);
-    if(isYouTube(url)) frame.src=youtubeEmbed(url);
-    else frame.src=url;
+function openYouTube(){
+  window.open("https://www.youtube.com","_blank");
 }
 
-// Reload iframe
-function reloadFrame(){frame.src=frame.src;}
+function go(u){
+  if(!u) return;
+  u=u.trim();
+  if(!u.includes(".")||u.includes(" ")){
+    u="https://www.google.com/search?q="+encodeURIComponent(u);
+  }
+  address.value=u;
+  u=normalize(u);
+  frame.src=isYouTube(u)?ytEmbed(u):u;
+}
 
-// Open in new tab
-function openNewTab(){if(frame.src) window.open(frame.src,"_blank");}
+function reloadFrame(){frame.src=frame.src}
+function openNew(){if(frame.src) window.open(frame.src,"_blank")}
 
-// Press enter to go
 address.addEventListener("keydown",e=>{
-    if(e.key==="Enter") go(address.value);
+  if(e.key==="Enter") go(address.value);
 });
 </script>
 
