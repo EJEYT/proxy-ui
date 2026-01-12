@@ -1,78 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>VoidBrowse</title>
+<meta charset="UTF-8">
+<title>FluxBrowse</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-    body {
-        margin: 0;
-        background: #0b0e14;
-        color: #e6e6eb;
-        font-family: system-ui, sans-serif;
-    }
-    header {
-        padding: 16px;
-        background: #111522;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    input {
-        flex: 1;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        background: #1a1f33;
-        color: white;
-        font-size: 16px;
-    }
-    button {
-        padding: 12px 16px;
-        border-radius: 8px;
-        border: none;
-        background: #5865f2;
-        color: white;
-        cursor: pointer;
-    }
-    iframe {
-        width: 100%;
-        height: calc(100vh - 64px);
-        border: none;
-        background: black;
-    }
-    footer {
-        position: fixed;
-        bottom: 0;
-        right: 10px;
-        opacity: 0.4;
-        font-size: 12px;
-    }
+body {
+    margin: 0;
+    background: #0a0d14;
+    color: #eaeaf0;
+    font-family: system-ui, sans-serif;
+}
+header {
+    display: flex;
+    gap: 10px;
+    padding: 14px;
+    background: #11162a;
+}
+input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #1a2040;
+    color: white;
+    font-size: 15px;
+}
+button {
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: none;
+    background: #5b6cff;
+    color: white;
+    cursor: pointer;
+}
+iframe {
+    width: 100%;
+    height: calc(100vh - 60px);
+    border: none;
+    background: black;
+}
+.note {
+    position: fixed;
+    bottom: 8px;
+    right: 12px;
+    font-size: 11px;
+    opacity: 0.35;
+}
 </style>
 </head>
 <body>
 
 <header>
-    <input id="url" placeholder="Enter a URL (https://example.com)" />
-    <button onclick="openSite()">GO</button>
+    <input id="url" placeholder="https://example.com">
+    <button onclick="go()">GO</button>
 </header>
 
-<iframe id="viewer" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
+<iframe id="frame" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
 
-<footer>VoidBrowse • UI Demo</footer>
+<div class="note">FluxBrowse • UI only</div>
 
 <script>
-function openSite() {
-    const input = document.getElementById("url");
-    let url = input.value.trim();
-
+function go() {
+    let url = document.getElementById("url").value.trim();
     if (!url) return;
-
-    if (!url.startsWith("http")) {
-        url = "https://" + url;
-    }
-
-    document.getElementById("viewer").src = url;
+    if (!url.startsWith("http")) url = "https://" + url;
+    document.getElementById("frame").src = url;
 }
 </script>
 
